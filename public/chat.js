@@ -8,10 +8,12 @@ let output = document.getElementById('output');
 let actions = document.getElementById('actions');
 
 send.addEventListener('click', () => {
-    socket.emit('chat:message', {
-        username: username.value,
-        message: message.value
-    })
+    if(username.value && message.value) {
+        socket.emit('chat:message', {
+            username: username.value,
+            message: message.value
+        })
+    }
 })
 
 message.addEventListener('keypress', () => {
@@ -19,8 +21,8 @@ message.addEventListener('keypress', () => {
 })
 
 socket.on('chat:message', (data) => {
-    actions.innerHTML = '';
-  output.innerHTML += `<p><b>${data.username}<b>: <i>${data.message}</i></p>`;  
+  actions.innerHTML = '';
+  output.innerHTML += `<p> >> <b>${data.username}<b>: <span>${data.message}</span></p>`;  
   message.value = '';
 })
 
